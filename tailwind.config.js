@@ -1,21 +1,9 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
-import forms from '@tailwindcss/forms';
+/** Tailwind CSS v4 uses @source in CSS for content scanning.
+ *  Keep this file for future theme overrides if needed.
+ */
 
-/** @type {import('tailwindcss').Config} */
-export default {
-    content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
-    ],
+import tailwindcss from "@tailwindcss/vite";
 
-    theme: {
-        extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
-        },
-    },
-
-    plugins: [forms],
-};
+export default defineConfig({
+    plugins: [tailwindcss()],
+});

@@ -4,41 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rocket Jobs</title>
-  @vite(['resources/js/app.js'])
-
-
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body>
-  <div>
+  <div class="px-10">
     
-  <nav>
+    <nav class="flex items-baseline justify-between py-4">
 
-    <div>
-<a href="">
-  <img src="{{ Vite::asset('resources/images/logo.svg')}}" alt="logo">
-</a>
-    </div>
+      <div>
+        <a href="/">
+          <img src="{{ Vite::asset('resources/images/logo.svg')}}" alt="logo">
+        </a>
+      </div>
 
-    <div>
-      
-<a href=""> Jobs link</a>
+      <div class="space-x-6">
+        <a href="#"> Jobs link</a>
 
-<a href=""> Careers link </a>
+        <a href="#"> Careers link </a>
 
-<a href=""> Slaries link</a>
+        <a href="#"> Salaries link</a>
 
-    </div>
+      </div>
 
-    <div>
-    <a href=""> Post a Job</a>
-    </div>
+      <div>
+        <a href=""> Post a Job</a>
+      </div>
 
 
-  </nav>
-  
-  <main>
-    {{ $slot }}
-  </main>
+    </nav>
+    
+    <main>
+      {{ $slot }}
+    </main>
   </div>
 
 </body>
