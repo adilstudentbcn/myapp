@@ -1,32 +1,11 @@
 <x-layout>
-
    <section>
+      <h3 class="mb-6">Top jobs</h3>
 
-      <H3>Top jobs</H3>
-
-   <div class="p-4 bg-orange-500">
-
-
-      <div>
-         <div>Employer</div>
-         <h3>Job Title</h3>
-         <p>Salary</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+         <x-job-card />
+         <x-job-card />
+         <x-job-card />
       </div>
-
-
-<div>
-   
-<div>
-<a href="#">Tag</a>
-<a href="#">Tag</a>
-<a href="#">Tag</a>
-</div>
-
-
-
-</div> 
-
-</div>
    </section>
-
 </x-layout>
