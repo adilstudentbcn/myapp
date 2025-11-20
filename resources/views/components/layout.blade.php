@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rocket Jobs</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png">
+
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -13,12 +16,8 @@
 
         <nav class="flex items-baseline justify-between py-4">
             <div>
-                <a href="/">
-                    <img src="{{ Vite::asset('resources/images/logo.png') }}" 
-     alt="logo" 
-     class="w-12 h-auto">
+        <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="logo" class="w-12 h-auto">
 
-                </a>
             </div>
 
             <div class="space-x-6">
