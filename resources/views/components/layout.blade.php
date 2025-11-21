@@ -16,8 +16,9 @@
     <div class="min-h-screen px-10">
 
         <nav class="flex justify-between items-center py-4">
-            <div>
+            <div class="flex justify-between items-center">
                 <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="logo" class="w-12 h-auto">
+                Rocket
 
             </div>
 
