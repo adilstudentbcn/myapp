@@ -10,8 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        // For this course we don't need Laravel's queue tables,
-        // so we leave this migration empty on purpose.
+        Schema::create('employers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('logo')->nullable();
+            $table->string('website')->nullable();
+            $table->timestamps();
+        });
+
     }
 
     /**
@@ -19,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        // Nothing to roll back because we didn't create any tables here.
+        Schema::dropIfExists('employers');
     }
 };
