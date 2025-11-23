@@ -19,12 +19,12 @@
 
             <a href="/" class="flex justify-between items-center">
                 <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="logo" class="w-12 h-auto">
-                Rocket
+                <span class="font-bold text-lg">Rocket</span>
             </a>
 
             @if (!request()->routeIs('jobs.browse'))
                 <a href="{{ route('jobs.browse') }}" class="hover:text-amber-400 transition">
-                    Browse Jobs
+                    <span class="font-bold text-lg">Browse Jobs</span>
                 </a>
             @endif
 
