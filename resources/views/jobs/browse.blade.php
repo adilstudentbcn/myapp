@@ -1,14 +1,18 @@
 <x-layout>
 
-  <h1 class="text-4xl font-bold mb-10">Browse All Jobs</h1>
+  <h1 class="text-4xl font-bold mb-10">Available Opportunities</h1>
 
 
   <section class="mb-10">
-    <div class="flex flex-wrap gap-2">
+    <div class="mt-6 space-x-2">
       @foreach ($tags as $tag)
-        <x-tag>{{ $tag->name }}</x-tag>
+        <x-tag :href="route('jobs.browse', ['tag' => $tag->name] + request()->only('q'))"
+          :active="request('tag') === $tag->name">
+          {{ $tag->name }}
+        </x-tag>
       @endforeach
     </div>
+
   </section>
 
 

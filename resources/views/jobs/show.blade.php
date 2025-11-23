@@ -3,9 +3,10 @@
   <div class="max-w-3xl mx-auto py-10 space-y-6">
 
 
-    <a href="/" class="text-sm text-gray-400 hover:text-amber-400">
-      ← Back to jobs
+    <a href="{{ route('jobs.browse') }}" class="text-sm hover:underline text-gray-300">
+      ← All Jobs
     </a>
+
 
 
     <div class="p-6 rounded-xl bg-white/5 space-y-4">

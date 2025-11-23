@@ -26,7 +26,9 @@
   <div class="mt-6 flex items-center justify-between">
     <div class="flex flex-wrap gap-2">
       @foreach ($job->tags as $tag)
-        <x-tag>{{ $tag->name }}</x-tag>
+        <x-tag :href="route('jobs.browse', ['tag' => $tag->name])">
+          {{ $tag->name }}
+        </x-tag>
       @endforeach
     </div>
 
