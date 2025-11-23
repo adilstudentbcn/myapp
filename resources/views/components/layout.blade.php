@@ -29,7 +29,16 @@
             @endif
 
             <div class="space-x-6 font-bold flex items-center">
-                <a href="#" class="hover:text-amber-400">Post a Job</a>
+                @auth
+                    <a href="{{ route('employer.jobs.create') }}" class="hover:text-amber-400">
+                        Post a Job
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="hover:text-amber-400">
+                        Post a Job
+                    </a>
+                @endauth
+
 
                 @guest
                     <a href="/login" class="hover:text-amber-400">Login</a>
@@ -37,13 +46,20 @@
                 @endguest
 
                 @auth
-                    <a href="/dashboard" class="hover:text-amber-400">Dashboard</a>
+                    <a href="{{ route('employer.jobs.index')}}" class="hover:text-amber-400">Dashboard</a>
 
                     <form action="/logout" method="POST" class="inline">
                         @csrf
                         <button class="hover:text-amber-400">Logout</button>
                     </form>
                 @endauth
+
+                @auth
+                    <a href="{{ route('employer.profile.edit') }}" class="hover:text-amber-400">
+                        Employer profile
+                    </a>
+                @endauth
+
             </div>
         </nav>
 

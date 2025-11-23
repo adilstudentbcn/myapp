@@ -11,8 +11,9 @@ class Job extends Model
         'title',
         'location',
         'salary',
-        'type',
-        'description',
+        'apply_url',
+        'featured',
+        'description', // optional later
     ];
 
     public function employer()
