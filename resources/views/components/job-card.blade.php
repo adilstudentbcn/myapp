@@ -1,17 +1,20 @@
 @props(['job'])
 
-<a href="{{ route('jobs.show', $job) }}"
-  class="block w-full border border-transparent rounded-xl hover:border-amber-400 transition-colors duration-300 group">
+<article class="h-full rounded-xl border border-transparent bg-white/5 p-6
+         flex flex-col justify-between transition duration-300
+         hover:border-amber-400">
 
-  <div class="p-4 bg-white/5 rounded-xl flex flex-col justify-between text-center w-full">
+  {{-- Top --}}
+  <div class="text-center space-y-6">
     <div class="text-sm font-semibold">
       {{ $job->employer->name }}
     </div>
 
-    <div class="py-8">
-      <h3 class="font-bold group-hover:text-amber-400">
+    <div>
+      {{-- Only the title is clickable --}}
+      <a href="{{ route('jobs.show', $job) }}" class="font-bold hover:text-amber-400">
         {{ $job->title }}
-      </h3>
+      </a>
 
       <p class="font-semibold">
         {{ $job->salary }}
@@ -19,8 +22,9 @@
     </div>
   </div>
 
-  <div class="flex justify-between items-center mt-4">
-    <div class="flex gap-2">
+  {{-- Bottom --}}
+  <div class="mt-6 flex items-center justify-between">
+    <div class="flex flex-wrap gap-2">
       @foreach ($job->tags as $tag)
         <x-tag>{{ $tag->name }}</x-tag>
       @endforeach
@@ -29,4 +33,4 @@
     <x-employer-logo />
   </div>
 
-</a>
+</article>

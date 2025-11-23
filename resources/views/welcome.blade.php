@@ -12,12 +12,15 @@
 
       <section class="mb-20">
          <x-section-heading>Featured Jobs</x-section-heading>
-         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
+
+         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mt-6">
             @foreach ($featuredJobs as $job)
+               @continue(empty($job))
                <x-job-card :job="$job" />
             @endforeach
          </div>
       </section>
+
 
       <section class="mb-20">
          <x-section-heading>Tags</x-section-heading>
