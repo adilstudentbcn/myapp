@@ -1,18 +1,12 @@
 <?php
 
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [App\Http\Controllers\JobController::class, 'index']);
+Route::get('/', [JobController::class, 'home'])->name('home');
 
+Route::get('/jobs', [JobController::class, 'browse'])->name('jobs.browse');
 
-Route::get('/dashboard', function () {
-    return view('userzone.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [App\Http\Controllers\Userzone\ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [App\Http\Controllers\Userzone\ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [App\Http\Controllers\Userzone\ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
 
 require __DIR__ . '/auth.php';

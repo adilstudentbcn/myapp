@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('salary')->nullable();
             $table->string('type')->nullable(); // full-time, part-time, etc.
             $table->text('description');
+            $table->boolean('featured')->default(false); // ⭐ new column
             $table->timestamps();
         });
 

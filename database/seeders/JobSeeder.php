@@ -15,28 +15,32 @@ class JobSeeder extends Seeder
         Job::create([
             'employer_id' => 1,
             'title' => 'Full Stack Developer',
-            'location' => 'Barcelona',
             'salary' => '€60k',
-            'type' => 'Full-Time',
-            'description' => 'Join our team as a Full Stack Developer.',
+            'location' => 'Remote',
+            'type' => 'Full-time',
+            'description' => 'Build and maintain web applications.',
+            'featured' => true,
         ]);
 
         Job::create([
             'employer_id' => 2,
             'title' => 'Data Analyst',
-            'location' => 'Madrid',
             'salary' => '€40k',
-            'type' => 'Full-Time',
-            'description' => 'Analyze data to generate actionable insights.',
+            'location' => 'Barcelona',
+            'type' => 'Full-time',
+            'description' => 'Analyze business data and create dashboards.',
+            'featured' => false,
         ]);
 
         Job::create([
             'employer_id' => 1,
             'title' => 'Cloud Engineer',
-            'location' => 'Remote',
             'salary' => '€75k',
-            'type' => 'Remote',
-            'description' => 'Work with cloud infrastructure and deployment.',
+            'location' => 'Remote',
+            'type' => 'Full-time',
+            'description' => 'Manage and optimize cloud infrastructure.',
+            'featured' => true,
         ]);
     }
+
 }
