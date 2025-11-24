@@ -35,7 +35,22 @@
               View public page
             </a>
 
-            {{-- Edit/delete will go here later --}}
+            {{-- Edit button --}}
+            <a href="{{ route('employer.jobs.edit', $job) }}" class="text-sm text-blue-400 underline">
+              Edit job
+            </a>
+
+            {{-- Delete button --}}
+            <form action="{{ route('employer.jobs.destroy', $job) }}" method="POST"
+              onsubmit="return confirm('Are you sure you want to delete this job?');">
+              @csrf
+              @method('DELETE')
+              <button class="text-sm text-red-400 underline">
+                Delete job
+              </button>
+            </form>
+
+
           </div>
         </article>
       @endforeach

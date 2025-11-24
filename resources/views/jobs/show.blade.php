@@ -41,12 +41,21 @@
       </div>
 
 
-      <div class="mt-6">
-        <a href="#"
-          class="inline-block px-6 py-3 bg-amber-500 text-black font-bold rounded-xl hover:bg-amber-400 transition">
-          Apply for this job
-        </a>
-      </div>
+
+      @php
+        $isOwner = auth()->check()
+          && auth()->user()->employer
+          && auth()->user()->employer->id === $job->employer_id;
+      @endphp
+
+      @if (!$isOwner)
+        @if ($job->apply_url)
+          <a href="{{ $job->apply_url }}"
+            class="inline-block mt-6 px-6 py-3 bg-amber-500 text-black font-semibold rounded-lg">
+            Apply for this job
+          </a>
+        @endif
+      @endif
 
     </div>
 
