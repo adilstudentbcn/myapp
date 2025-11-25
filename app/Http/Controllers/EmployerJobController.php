@@ -12,7 +12,6 @@ class EmployerJobController extends Controller
     {
         $user = $request->user();
 
-        // If user has no employer profile yet, send them to fill it
         if (!$user->employer) {
             return redirect()
                 ->route('employer.profile.edit')
@@ -38,7 +37,8 @@ class EmployerJobController extends Controller
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
-            'salary' => ['required', 'string', 'max:255'], // "EUR 60k"
+            'salary' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:50'],
             'description' => ['required', 'string'],
             'apply_url' => ['nullable', 'url', 'max:255'],
             'featured' => ['nullable', 'boolean'],
@@ -48,17 +48,16 @@ class EmployerJobController extends Controller
 
         $data['featured'] = $request->boolean('featured');
 
-        // Create the job attached to this employer
         $job = $user->employer->jobs()->create([
             'title' => $data['title'],
             'description' => $data['description'],
             'location' => $data['location'],
             'salary' => $data['salary'],
+            'type' => $data['type'],
             'url' => $data['apply_url'] ?? null,
             'featured' => $data['featured'],
         ]);
 
-        // Attach selected tags
         $job->tags()->sync($data['tags'] ?? []);
 
         return redirect()
@@ -70,7 +69,6 @@ class EmployerJobController extends Controller
     {
         $user = $request->user();
 
-        // Make sure employer profile exists
         $employer = $user->employer;
 
         if (!$employer) {
@@ -81,6 +79,7 @@ class EmployerJobController extends Controller
 
         $jobs = $employer->jobs()
             ->with('tags')
+            ->withCount('applications')
             ->latest()
             ->get();
 
@@ -89,17 +88,15 @@ class EmployerJobController extends Controller
         ]);
     }
 
-
     public function destroy(Request $request, Job $job)
     {
         $user = $request->user();
 
-        // Make sure the job belongs to the logged-in employer
         if (!$user->employer || $job->employer_id !== $user->employer->id) {
             abort(403);
         }
 
-        $job->delete(); // simple delete; later you can change to "closed_at" or "is_active"
+        $job->delete();
 
         return redirect()
             ->route('employer.jobs.index')
@@ -132,6 +129,7 @@ class EmployerJobController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
             'salary' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:50'],
             'description' => ['required', 'string'],
             'apply_url' => ['nullable', 'url', 'max:255'],
             'featured' => ['nullable', 'boolean'],
@@ -143,6 +141,7 @@ class EmployerJobController extends Controller
             'title' => $data['title'],
             'location' => $data['location'],
             'salary' => $data['salary'],
+            'type' => $data['type'],
             'description' => $data['description'],
             'url' => $data['apply_url'] ?? null,
             'featured' => $request->boolean('featured'),
@@ -155,4 +154,23 @@ class EmployerJobController extends Controller
             ->with('status', 'Job updated.');
     }
 
+
+    public function applications(Request $request, Job $job)
+    {
+        $user = $request->user();
+
+        if (!$user->employer || $job->employer_id !== $user->employer->id) {
+            abort(403);
+        }
+
+        $applications = $job->applications()
+            ->with('user')
+            ->latest()
+            ->get();
+
+        return view('employer.jobs.applications', [
+            'job' => $job,
+            'applications' => $applications,
+        ]);
+    }
 }

@@ -25,4 +25,10 @@ class Job extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    public function applications()
+    {
+        return $this->hasMany(JobApplication::class);
+    }
+
 }

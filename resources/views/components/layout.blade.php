@@ -30,37 +30,38 @@
 
             <div class="space-x-6 font-bold flex items-center">
                 @auth
-                    <a href="{{ route('employer.jobs.create') }}" class="hover:text-amber-400">
-                        Post a Job
-                    </a>
-                @else
-                    <a href="{{ route('login') }}" class="hover:text-amber-400">
-                        Post a Job
-                    </a>
-                @endauth
+                @php($user = auth()->user())
 
+                    {{-- Employer user --}}
+                    @if ($user->role === 'employer')
+                        <a href="{{ route('employer.jobs.create') }}" class="hover:text-amber-400">Post a Job</a>
+                        <a href="{{ route('employer.jobs.index') }}" class="hover:text-amber-400">My Jobs</a>
+                        <a href="{{ route('employer.profile.edit') }}" class="hover:text-amber-400">Employer Profile</a>
+                    @endif
 
-                @guest
-                    <a href="/login" class="hover:text-amber-400">Login</a>
-                    <a href="/register" class="hover:text-amber-400">Register</a>
-                @endguest
+                    {{-- Applicant user --}}
+                    @if ($user->role === 'applicant')
+                        <a href="{{ route('applications.index') }}" class="hover:text-amber-400">My Applications</a>
+                    @endif
 
-                @auth
-                    <a href="{{ route('employer.jobs.index')}}" class="hover:text-amber-400">Dashboard</a>
+                    {{-- Admin user --}}
+                    @if ($user->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="hover:text-amber-400">Admin</a>
+                    @endif
 
-                    <form action="/logout" method="POST" class="inline">
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
                         <button class="hover:text-amber-400">Logout</button>
                     </form>
+                @else
+                <a href="{{ route('login') }}" class="hover:text-amber-400">Login</a>
+                <a href="{{ route('register') }}" class="hover:text-amber-400">Register</a>
                 @endauth
-
-                @auth
-                    <a href="{{ route('employer.profile.edit') }}" class="hover:text-amber-400">
-                        Employer profile
-                    </a>
-                @endauth
-
             </div>
+
+
+
+
         </nav>
 
 

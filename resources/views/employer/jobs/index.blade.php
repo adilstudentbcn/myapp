@@ -14,9 +14,11 @@
         <article class="rounded-xl bg-white/5 p-4 flex justify-between items-center">
           <div>
             <div class="text-sm text-gray-300">{{ $job->employer->name }}</div>
+
             <h2 class="font-bold text-lg">{{ $job->title }}</h2>
+
             <p class="text-sm text-gray-400">
-              {{ $job->location }} · {{ $job->salary }}
+              {{ $job->location }} · {{ $job->salary }} · {{ $job->type }}
             </p>
 
             <div class="mt-2 flex flex-wrap gap-2">
@@ -35,6 +37,11 @@
               View public page
             </a>
 
+            {{-- View applicants --}}
+            <a href="{{ route('employer.jobs.applications', $job) }}" class="text-sm text-amber-400 underline">
+              View applicants @if(isset($job->applications_count)) ({{ $job->applications_count }}) @endif
+            </a>
+
             {{-- Edit button --}}
             <a href="{{ route('employer.jobs.edit', $job) }}" class="text-sm text-blue-400 underline">
               Edit job
@@ -49,9 +56,11 @@
                 Delete job
               </button>
             </form>
-
-
           </div>
+
+
+
+
         </article>
       @endforeach
     </div>

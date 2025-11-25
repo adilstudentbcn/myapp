@@ -9,7 +9,7 @@
     {{-- Left --}}
     <div class="flex items-start gap-4">
 
-      <x-employer-logo />
+      <x-employer-logo :employer="$job->employer" />
 
       <div>
         <div class="text-sm font-semibold">
@@ -21,6 +21,11 @@
         </h3>
 
         <p class="font-semibold">{{ $job->salary }}</p>
+
+        {{-- Job Type --}}
+        <p class="text-xs text-gray-300 capitalize">
+          {{ $job->type }}
+        </p>
       </div>
     </div>
 
@@ -32,7 +37,6 @@
         </x-tag>
       @endforeach
     </div>
-
 
   </article>
 

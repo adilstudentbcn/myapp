@@ -11,13 +11,18 @@
     </div>
 
     <div>
-      {{-- Only the title is clickable --}}
+      {{-- title --}}
       <a href="{{ route('jobs.show', $job) }}" class="font-bold hover:text-amber-400">
         {{ $job->title }}
       </a>
 
       <p class="font-semibold">
         {{ $job->salary }}
+      </p>
+
+      {{-- Job Type --}}
+      <p class="text-xs text-gray-300 capitalize">
+        {{ $job->type }}
       </p>
     </div>
   </div>
@@ -32,7 +37,7 @@
       @endforeach
     </div>
 
-    <x-employer-logo />
+    <x-employer-logo :employer="$job->employer" />
   </div>
 
 </article>
