@@ -32,34 +32,41 @@
             </p>
           </div>
 
+          {{-- ACTION BUTTONS --}}
           <div class="flex flex-col items-end gap-2">
-            <a href="{{ route('jobs.show', $job) }}" class="text-sm text-amber-400 underline">
-              View public page
+
+            @php
+              $btn = 'inline-flex items-center justify-center cursor-pointer 
+                                                    min-w-[180px] px-4 py-2 text-sm font-semibold rounded-lg transition';
+            @endphp
+
+            {{-- View Public Page --}}
+            <a href="{{ route('jobs.show', $job) }}" class="{{ $btn }} bg-amber-500 text-black hover:bg-amber-400">
+              View Public Page
             </a>
 
-            {{-- View applicants --}}
-            <a href="{{ route('employer.jobs.applications', $job) }}" class="text-sm text-amber-400 underline">
-              View applicants @if(isset($job->applications_count)) ({{ $job->applications_count }}) @endif
+            {{-- View Applicants --}}
+            <a href="{{ route('employer.jobs.applications', $job) }}"
+              class="{{ $btn }} bg-blue-600 text-white hover:bg-blue-500">
+              View Applicants ({{ $job->applications_count ?? $job->applications->count() }})
             </a>
 
-            {{-- Edit button --}}
-            <a href="{{ route('employer.jobs.edit', $job) }}" class="text-sm text-blue-400 underline">
-              Edit job
+            {{-- Edit Job --}}
+            <a href="{{ route('employer.jobs.edit', $job) }}" class="{{ $btn }} bg-gray-700 text-white hover:bg-gray-600">
+              Edit Job
             </a>
 
-            {{-- Delete button --}}
+            {{-- Delete Job --}}
             <form action="{{ route('employer.jobs.destroy', $job) }}" method="POST"
               onsubmit="return confirm('Are you sure you want to delete this job?');">
               @csrf
               @method('DELETE')
-              <button class="text-sm text-red-400 underline">
-                Delete job
+              <button type="submit" class="{{ $btn }} bg-red-600 text-white hover:bg-red-500">
+                Delete Job
               </button>
             </form>
+
           </div>
-
-
-
 
         </article>
       @endforeach
