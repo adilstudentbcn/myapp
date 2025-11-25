@@ -1,65 +1,94 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+
+    {{-- Header --}}
+    <div class="mb-6 text-center space-y-1">
+        <h1 class="text-2xl font-bold">Create your account</h1>
+        <p class="text-sm text-gray-400">
+            Join Rocket Jobs and start your journey.
+        </p>
+    </div>
+
+    <form method="POST" action="{{ route('register') }}" class="space-y-5">
         @csrf
 
-        <!-- Name -->
+
+        {{-- Name --}}
         <div>
-            <x-breeze.input-label for="name" :value="__('Name')" />
-            <x-breeze.text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
-                required autofocus autocomplete="name" />
-            <x-breeze.input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-breeze.input-label for="name" :value="__('Name')" class="text-sm text-gray-200" />
+
+            <x-breeze.text-input id="name" name="name" type="text" :value="old('name')" required autofocus
+                autocomplete="name" class="mt-1 block w-full bg-black border border-zinc-700 rounded-lg px-3 py-2
+                       text-white placeholder-gray-500 focus:border-amber-400 focus:ring-amber-400" />
+
+            <x-breeze.input-error :messages="$errors->get('name')" class="mt-2 text-red-400" />
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-breeze.input-label for="email" :value="__('Email')" />
-            <x-breeze.text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
-                required autocomplete="username" />
-            <x-breeze.input-error :messages="$errors->get('email')" class="mt-2" />
+
+        {{-- Email --}}
+        <div>
+            <x-breeze.input-label for="email" :value="__('Email')" class="text-sm text-gray-200" />
+
+            <x-breeze.text-input id="email" name="email" type="email" :value="old('email')" required
+                autocomplete="username" class="mt-1 block w-full bg-black border border-zinc-700 rounded-lg px-3 py-2
+                       text-white placeholder-gray-500 focus:border-amber-400 focus:ring-amber-400" />
+
+            <x-breeze.input-error :messages="$errors->get('email')" class="mt-2 text-red-400" />
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-breeze.input-label for="password" :value="__('Password')" />
 
-            <x-breeze.text-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                autocomplete="new-password" />
+        {{-- Password --}}
+        <div>
+            <x-breeze.input-label for="password" :value="__('Password')" class="text-sm text-gray-200" />
 
-            <x-breeze.input-error :messages="$errors->get('password')" class="mt-2" />
+            <x-breeze.text-input id="password" name="password" type="password" required autocomplete="new-password"
+                class="mt-1 block w-full bg-black border border-zinc-700 rounded-lg px-3 py-2
+                       text-white placeholder-gray-500 focus:border-amber-400 focus:ring-amber-400" />
+
+            <x-breeze.input-error :messages="$errors->get('password')" class="mt-2 text-red-400" />
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-breeze.input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-            <x-breeze.text-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                name="password_confirmation" required autocomplete="new-password" />
+        {{-- Confirm Password --}}
+        <div>
+            <x-breeze.input-label for="password_confirmation" :value="__('Confirm Password')"
+                class="text-sm text-gray-200" />
 
-            <x-breeze.input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            <x-breeze.text-input id="password_confirmation" name="password_confirmation" type="password" required
+                autocomplete="new-password" class="mt-1 block w-full bg-black border border-zinc-700 rounded-lg px-3 py-2
+                       text-white placeholder-gray-500 focus:border-amber-400 focus:ring-amber-400" />
+
+            <x-breeze.input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-red-400" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+
+        {{-- Role Selector --}}
+        <div>
+            <label class="block text-sm font-semibold text-gray-200 mb-1">
+                Register as:
+            </label>
+
+            <select name="role" required class="w-full bg-black border border-zinc-700 text-white px-3 py-2 rounded-lg
+                       focus:border-amber-400 focus:ring-amber-400">
+                <option value="applicant" class="bg-black">Applicant</option>
+                <option value="employer" class="bg-black">Employer</option>
+            </select>
+
+            <x-breeze.input-error :messages="$errors->get('role')" class="mt-2 text-red-400" />
+        </div>
+
+
+        {{-- Bottom Links --}}
+        <div class="flex items-center justify-between pt-2 text-sm">
+            <a href="{{ route('login') }}"
+                class="text-gray-400 hover:text-amber-400 underline-offset-4 hover:underline">
+                Already registered?
             </a>
 
-            <x-breeze.primary-button class="ms-4">
+            <x-breeze.primary-button class="bg-amber-500 hover:bg-amber-400 text-black border-0
+                       px-5 py-2.5 rounded-lg font-semibold">
                 {{ __('Register') }}
             </x-breeze.primary-button>
         </div>
-
-        <div class="mt-4">
-            <label class="block text-sm font-medium mb-1">Register as:</label>
-
-            <select name="role" required class="w-full p-2 rounded bg-white/10 border border-gray-600">
-                <option value="applicant">Applicant</option>
-                <option value="employer">Employer</option>
-            </select>
-        </div>
-
-
-
 
     </form>
 </x-guest-layout>

@@ -1,31 +1,40 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <title>{{ config('app.name', 'Rocket Jobs') }}</title>
 
-        <!-- Tailwind CSS & Alpine.js via CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.1/dist/cdn.min.js"></script>
-    </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-breeze.application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
+    {{-- Optional external font (you can keep or remove) --}}
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
-            </div>
+    {{-- Use the same compiled assets as the main layout --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body class="bg-black text-white font-hanken-grotesk antialiased">
+    <div class="min-h-screen flex flex-col justify-center items-center px-4">
+
+        {{-- Rocket logo + name --}}
+        <div class="mb-10">
+            <a href="/" class="flex items-center gap-3">
+                <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="Rocket logo" class="w-12 h-auto">
+                <span class="font-bold text-2xl">
+                    Rocket
+                </span>
+            </a>
         </div>
-    </body>
+
+        {{-- Auth card (login / register / forgot password) --}}
+        <div class="w-full max-w-md bg-zinc-900/95 border border-zinc-700/70
+               rounded-2xl px-8 py-6 shadow-xl">
+            {{ $slot }}
+        </div>
+    </div>
+</body>
+
 </html>
