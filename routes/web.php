@@ -8,6 +8,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminJobController;
+use App\Http\Controllers\AdminTagController;
 
 // Public pages
 Route::get('/', [JobController::class, 'home'])->name('home');
@@ -89,4 +90,12 @@ Route::middleware(['auth', 'admin'])
       ->name('jobs.index');
     Route::delete('/jobs/{job}', [AdminJobController::class, 'destroy'])
       ->name('jobs.destroy');
+
+    // Admin — manage tags
+    Route::get('/tags', [AdminTagController::class, 'index'])
+      ->name('tags.index');
+    Route::post('/tags', [AdminTagController::class, 'store'])
+      ->name('tags.store');
+    Route::delete('/tags/{tag}', [AdminTagController::class, 'destroy'])
+      ->name('tags.destroy');
   });

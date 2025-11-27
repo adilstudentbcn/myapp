@@ -16,45 +16,57 @@ class JobController extends Controller
     {
         $search = $request->input('q');
 
-        // If there is a search term, don't cache (results depend on user input)
+        // If the user is searching, DO NOT CACHE
         if ($search) {
             $featuredJobs = Job::with(['employer', 'tags'])
                 ->where('featured', true)
                 ->take(4)
                 ->get();
 
-            $recentJobsQuery = Job::with(['employer', 'tags'])->latest();
+            $recentJobs = Job::with(['employer', 'tags'])
+                ->where(function ($query) use ($search) {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%")
+                        ->orWhere('location', 'like', "%{$search}%");
+                })
+                ->latest()
+                ->take(10)
+                ->get();
 
-            $recentJobsQuery->where(function ($query) use ($search) {
-                $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%")
-                    ->orWhere('location', 'like', "%{$search}%");
-            });
-
-            $recentJobs = $recentJobsQuery->take(10)->get();
             $tags = Tag::all();
-        } else {
-            // No search term: cache the home page data
-            [$featuredJobs, $recentJobs, $tags] = Cache::remember(
-                'home_page_data',
-                now()->addMinutes(10), // cache duration
-                function () {
-                    $featuredJobs = Job::with(['employer', 'tags'])
-                        ->where('featured', true)
-                        ->take(4)
-                        ->get();
 
-                    $recentJobs = Job::with(['employer', 'tags'])
-                        ->latest()
-                        ->take(10)
-                        ->get();
-
-                    $tags = Tag::all();
-
-                    return [$featuredJobs, $recentJobs, $tags];
-                }
-            );
+            return view('welcome', [
+                'featuredJobs' => $featuredJobs,
+                'recentJobs' => $recentJobs,
+                'tags' => $tags,
+            ]);
         }
+
+        /**
+
+        * Cache key automatically updates whenever a job is added/updated/deleted
+         */
+        $cacheKey = 'home_page_data_' . Job::max('updated_at');
+
+        [$featuredJobs, $recentJobs, $tags] = Cache::remember(
+            $cacheKey,
+            now()->addMinutes(10),
+            function () {
+                $featuredJobs = Job::with(['employer', 'tags'])
+                    ->where('featured', true)
+                    ->take(4)
+                    ->get();
+
+                $recentJobs = Job::with(['employer', 'tags'])
+                    ->latest()
+                    ->take(10)
+                    ->get();
+
+                $tags = Tag::all();
+
+                return [$featuredJobs, $recentJobs, $tags];
+            }
+        );
 
         return view('welcome', [
             'featuredJobs' => $featuredJobs,
@@ -108,3 +120,4 @@ class JobController extends Controller
         ]);
     }
 }
+

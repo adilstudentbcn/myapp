@@ -4,7 +4,7 @@
     {{-- Header --}}
     <header class="space-y-4">
       <div>
-        <h1 class="text-3xl font-bold">Admin dashboard</h1>
+        <h1 class="text-3xl font-bold">Admin Dashboard</h1>
         <p class="text-sm text-gray-400">
           Welcome, {{ $user->name }} ({{ $user->email }})
         </p>
@@ -19,8 +19,12 @@
 
         {{-- This route will be created in the next step --}}
         <a href="{{ route('admin.jobs.index') }}"
-          class="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-500 transition">
+          class="inline-flex items-center px-4 py-2 rounded-lg bg-amber-500 text-black text-sm font-semibold hover:bg-amber-400 transition">
           Manage jobs
+        </a>
+        <a href="{{ route('admin.tags.index') }}"
+          class="px-5 py-2 rounded-lg bg-amber-500 text-black font-semibold hover:bg-amber-400 transition">
+          Manage tags
         </a>
       </div>
     </header>
