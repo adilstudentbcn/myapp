@@ -3,7 +3,7 @@
 
       {{-- Hero + search --}}
       <section class="text-center pt-6">
-         <h1 class="font-bold text-5xl">Smart Job Matches</h1>
+         <h1 class="font-bold text-5xl">Find Your Dream Job</h1>
 
          <form action="{{ route('jobs.browse') }}" method="GET" class="mt-6">
             <input type="text" name="q" value="{{ request('q') }}" placeholder="Search jobs..." class="w-full p-4 rounded-lg bg-gray-800 border border-transparent

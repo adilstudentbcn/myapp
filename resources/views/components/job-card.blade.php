@@ -37,8 +37,8 @@
       @endforeach
     </div>
 
-    {{-- Bigger logo here --}}
-    <x-employer-logo :employer="$job->employer" size="48" />
+    {{-- logo --}}
+    <x-employer-logo :employer="$job->employer" size="64" />
   </div>
 
 </article>

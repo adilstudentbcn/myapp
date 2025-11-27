@@ -17,7 +17,7 @@ class JobController extends Controller
 
         $featuredJobs = Job::with(['employer', 'tags'])
             ->where('featured', true)
-            ->take(3)
+            ->take(4)
             ->get();
 
         $recentJobsQuery = Job::with(['employer', 'tags'])->latest();

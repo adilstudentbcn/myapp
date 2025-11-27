@@ -46,7 +46,7 @@
 
                     {{-- Admin user --}}
                     @if ($user->role === 'admin')
-                        <a href="{{ route('admin.dashboard') }}" class="hover:text-amber-400">Admin</a>
+                        <a href="{{ route('admin.dashboard') }}" class="hover:text-amber-400">Admin dashboard</a>
                     @endif
 
                     <form action="{{ route('logout') }}" method="POST" class="inline">
