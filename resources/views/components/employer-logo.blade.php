@@ -1,7 +1,23 @@
-@props(['width' => 20])
+@props([
+    'employer' => null,
+    // size in pixels – you can override per usage
+    'size' => 40,
+])
 
-<img src="{{ Vite::asset('resources/images/logo.png') }}" alt="logo" class="rounded-xl w-{{ $width }}">
+@php
+    $logoUrl = null;
 
+    if ($employer && $employer->logo_path) {
+        $logoUrl = asset('storage/' . $employer->logo_path);
+    } else {
+        // fallback to default rocket logo
+        $logoUrl = Vite::asset('resources/images/logo.png');
+    }
+@endphp
 
-
-{{-- <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="logo" class="w-20 h-auto"> --}}
+<img
+    src="{{ $logoUrl }}"
+    alt="{{ $employer->name ?? 'Employer logo' }}"
+    class="rounded-xl object-cover bg-white/5"
+    style="width: {{ $size }}px; height: {{ $size }}px;"
+>

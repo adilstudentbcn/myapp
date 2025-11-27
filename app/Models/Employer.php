@@ -8,8 +8,8 @@ class Employer extends Model
 {
     protected $fillable = [
         'name',
-        'logo',
         'website',
+        'logo_path',
         'user_id',
     ];
 

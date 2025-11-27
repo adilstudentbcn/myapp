@@ -9,7 +9,8 @@
     {{-- Left --}}
     <div class="flex items-start gap-4">
 
-      <x-employer-logo :employer="$job->employer" />
+      {{-- Logo with custom size --}}
+      <x-employer-logo :employer="$job->employer" size="32" />
 
       <div>
         <div class="text-sm font-semibold">
