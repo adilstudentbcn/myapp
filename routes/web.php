@@ -6,12 +6,8 @@ use App\Http\Controllers\EmployerProfileController;
 use App\Http\Controllers\EmployerJobController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AdminDashboardController;
-
-
-
-
-
-
+use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminJobController;
 
 Route::get('/', [JobController::class, 'home'])->name('home');
 Route::get('/jobs', [JobController::class, 'browse'])->name('jobs.browse');
@@ -50,13 +46,13 @@ Route::middleware('auth')->group(function () {
   Route::put('/employer/jobs/{job}', [EmployerJobController::class, 'update'])
     ->name('employer.jobs.update');
 
-  // Employer views applications
+  // Employer views applications for one job
   Route::get(
     '/employer/jobs/{job}/applications',
     [EmployerJobController::class, 'applications']
   )->name('employer.jobs.applications');
 
-  // Candidate applies
+  // Candidate applies to a job
   Route::post('/jobs/{job}/apply', [ApplicationController::class, 'store'])
     ->name('jobs.apply');
 
@@ -68,4 +64,15 @@ Route::middleware('auth')->group(function () {
   Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
     ->name('admin.dashboard');
 
+  // Admin — manage users
+  Route::get('/admin/users', [AdminUserController::class, 'index'])
+    ->name('admin.users.index');
+  Route::delete('/admin/users/{user}', [AdminUserController::class, 'destroy'])
+    ->name('admin.users.destroy');
+
+  // Admin — manage jobs
+  Route::get('/admin/jobs', [AdminJobController::class, 'index'])
+    ->name('admin.jobs.index');
+  Route::delete('/admin/jobs/{job}', [AdminJobController::class, 'destroy'])
+    ->name('admin.jobs.destroy');
 });

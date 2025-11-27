@@ -2,11 +2,27 @@
   <div class="space-y-10">
 
     {{-- Header --}}
-    <header class="space-y-2">
-      <h1 class="text-3xl font-bold">Admin dashboard</h1>
-      <p class="text-sm text-gray-400">
-        Welcome, {{ $user->name }} ({{ $user->email }})
-      </p>
+    <header class="space-y-4">
+      <div>
+        <h1 class="text-3xl font-bold">Admin dashboard</h1>
+        <p class="text-sm text-gray-400">
+          Welcome, {{ $user->name }} ({{ $user->email }})
+        </p>
+      </div>
+
+      {{-- Quick admin actions --}}
+      <div class="flex flex-wrap gap-3">
+        <a href="{{ route('admin.users.index') }}"
+          class="inline-flex items-center px-4 py-2 rounded-lg bg-amber-500 text-black text-sm font-semibold hover:bg-amber-400 transition">
+          Manage users
+        </a>
+
+        {{-- This route will be created in the next step --}}
+        <a href="{{ route('admin.jobs.index') }}"
+          class="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-500 transition">
+          Manage jobs
+        </a>
+      </div>
     </header>
 
     {{-- Top stats --}}
@@ -50,7 +66,7 @@
           <h2 class="text-lg font-semibold mb-3">Recent employers</h2>
 
           @forelse ($recentEmployers as $employerUser)
-            <div class="text-sm text-gray-200 flex justify-between py-1 border-b border-white/5 last:border-0">
+            <div class="text-sm text-gray-2 00 flex justify-between py-1 border-b border-white/5 last:border-0">
               <div>
                 <p class="font-semibold">{{ $employerUser->name }}</p>
                 <p class="text-xs text-gray-400">{{ $employerUser->email }}</p>
