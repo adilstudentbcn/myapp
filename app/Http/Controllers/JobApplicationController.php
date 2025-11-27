@@ -13,6 +13,11 @@ class JobApplicationController extends Controller
     {
         $user = $request->user();
 
+        // Only applicant accounts can apply
+        if (!$user || $user->role !== 'applicant') {
+            return back()->with('status', 'Only applicant accounts can apply for jobs. Please create an applicant account.');
+        }
+
         // prevent employers from applying to their own job
         if ($job->employer && $user->employer && $job->employer_id === $user->employer->id) {
             abort(403);

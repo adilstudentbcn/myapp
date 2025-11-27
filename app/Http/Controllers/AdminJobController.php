@@ -7,22 +7,11 @@ use Illuminate\Http\Request;
 
 class AdminJobController extends Controller
 {
-  protected function ensureAdmin(Request $request): void
-  {
-    $user = $request->user();
-
-    if (!$user || $user->role !== 'admin') {
-      abort(403);
-    }
-  }
-
+  // List all jobs for the admin
   public function index(Request $request)
   {
-    $this->ensureAdmin($request);
-
-    // Load all jobs with employer for display
     $jobs = Job::with('employer')
-      ->orderBy('created_at', 'desc')
+      ->latest()
       ->get();
 
     return view('admin.jobs.index', [
@@ -30,10 +19,9 @@ class AdminJobController extends Controller
     ]);
   }
 
+  // Delete a job (and implicitly its applications via DB constraints, if set)
   public function destroy(Request $request, Job $job)
   {
-    $this->ensureAdmin($request);
-
     $job->delete();
 
     return redirect()

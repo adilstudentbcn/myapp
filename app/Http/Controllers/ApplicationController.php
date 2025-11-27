@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Models\JobApplication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\JobApplicationReceived;
 
 class ApplicationController extends Controller
 {
@@ -33,12 +35,19 @@ class ApplicationController extends Controller
         ->with('status', 'You already applied to this job.');
     }
 
-    JobApplication::create([
+    // Create application
+    $application = JobApplication::create([
       'job_id' => $job->id,
       'user_id' => $user->id,
       'message' => $data['message'],
       'cv_url' => $data['cv_url'] ?? null,
     ]);
+
+    // If the job has an associated employer with a user account, send email
+    if ($job->employer && $job->employer->user && $job->employer->user->email) {
+      Mail::to($job->employer->user->email)
+        ->send(new JobApplicationReceived($application));
+    }
 
     return redirect()
       ->route('applications.index')

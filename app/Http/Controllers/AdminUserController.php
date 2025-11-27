@@ -7,20 +7,9 @@ use Illuminate\Http\Request;
 
 class AdminUserController extends Controller
 {
-  protected function ensureAdmin(Request $request): void
-  {
-    $user = $request->user();
-
-    if (!$user || $user->role !== 'admin') {
-      abort(403);
-    }
-  }
-
   public function index(Request $request)
   {
-    $this->ensureAdmin($request);
-
-    // Load all users ordered by newest, with simple counts
+    // Middleware already guarantees admin + auth
     $users = User::orderBy('created_at', 'desc')->get();
 
     return view('admin.users.index', [
@@ -30,9 +19,7 @@ class AdminUserController extends Controller
 
   public function destroy(Request $request, User $user)
   {
-    $this->ensureAdmin($request);
-
-    // Prevent admin from deleting themselves by mistake
+    // Prevent admin from deleting themselves
     if ($request->user()->id === $user->id) {
       return redirect()
         ->route('admin.users.index')

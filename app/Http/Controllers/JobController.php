@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class JobController extends Controller
 {
@@ -15,23 +16,45 @@ class JobController extends Controller
     {
         $search = $request->input('q');
 
-        $featuredJobs = Job::with(['employer', 'tags'])
-            ->where('featured', true)
-            ->take(4)
-            ->get();
-
-        $recentJobsQuery = Job::with(['employer', 'tags'])->latest();
-
+        // If there is a search term, don't cache (results depend on user input)
         if ($search) {
+            $featuredJobs = Job::with(['employer', 'tags'])
+                ->where('featured', true)
+                ->take(4)
+                ->get();
+
+            $recentJobsQuery = Job::with(['employer', 'tags'])->latest();
+
             $recentJobsQuery->where(function ($query) use ($search) {
                 $query->where('title', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%")
                     ->orWhere('location', 'like', "%{$search}%");
             });
-        }
 
-        $recentJobs = $recentJobsQuery->take(10)->get();
-        $tags = Tag::all();
+            $recentJobs = $recentJobsQuery->take(10)->get();
+            $tags = Tag::all();
+        } else {
+            // No search term: cache the home page data
+            [$featuredJobs, $recentJobs, $tags] = Cache::remember(
+                'home_page_data',
+                now()->addMinutes(10), // cache duration
+                function () {
+                    $featuredJobs = Job::with(['employer', 'tags'])
+                        ->where('featured', true)
+                        ->take(4)
+                        ->get();
+
+                    $recentJobs = Job::with(['employer', 'tags'])
+                        ->latest()
+                        ->take(10)
+                        ->get();
+
+                    $tags = Tag::all();
+
+                    return [$featuredJobs, $recentJobs, $tags];
+                }
+            );
+        }
 
         return view('welcome', [
             'featuredJobs' => $featuredJobs,
