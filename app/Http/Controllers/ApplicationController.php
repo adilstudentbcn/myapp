@@ -6,6 +6,7 @@ use App\Models\Job;
 use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use App\Mail\JobApplicationReceived;
 
 class ApplicationController extends Controller
@@ -22,6 +23,8 @@ class ApplicationController extends Controller
     $data = $request->validate([
       'message' => ['required', 'string', 'max:5000'],
       'cv_url' => ['nullable', 'url', 'max:255'],
+      // NEW: file upload (max ~5MB, PDF/DOC/DOCX)
+      'cv_file' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
     ]);
 
     // Prevent duplicate applications for same job
@@ -35,12 +38,20 @@ class ApplicationController extends Controller
         ->with('status', 'You already applied to this job.');
     }
 
+    // Handle optional file upload
+    $cvPath = null;
+    if ($request->hasFile('cv_file')) {
+      // stores in storage/app/public/cv/...
+      $cvPath = $request->file('cv_file')->store('cv', 'public');
+    }
+
     // Create application
     $application = JobApplication::create([
       'job_id' => $job->id,
       'user_id' => $user->id,
       'message' => $data['message'],
       'cv_url' => $data['cv_url'] ?? null,
+      'cv_path' => $cvPath,
     ]);
 
     // If the job has an associated employer with a user account, send email

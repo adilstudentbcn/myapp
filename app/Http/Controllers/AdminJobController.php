@@ -19,7 +19,7 @@ class AdminJobController extends Controller
     ]);
   }
 
-  // Delete a job (and implicitly its applications via DB constraints, if set)
+  // Delete a job 
   public function destroy(Request $request, Job $job)
   {
     $job->delete();

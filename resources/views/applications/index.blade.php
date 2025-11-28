@@ -35,15 +35,26 @@
             @if ($application->message)
               <p class="mt-2 text-sm text-gray-200">
                 <span class="font-semibold">Your message:</span>
-                {{ Str::limit($application->message, 140) }}
+                {{ \Illuminate\Support\Str::limit($application->message, 140) }}
               </p>
             @endif
 
-            @if ($application->cv_url)
-              <p class="mt-1 text-sm">
-                <a href="{{ $application->cv_url }}" target="_blank" class="text-amber-400 underline">
-                  View CV
-                </a>
+            @if ($application->cv_path || $application->cv_url)
+              <p class="mt-2 text-sm">
+                <span class="font-semibold text-gray-300">CV:</span>
+
+                @if ($application->cv_path)
+                  <a href="{{ asset('storage/' . $application->cv_path) }}" target="_blank"
+                    class="text-amber-400 underline ml-1">
+                    Download file
+                  </a>
+                @endif
+
+                @if ($application->cv_url)
+                  <a href="{{ $application->cv_url }}" target="_blank" class="text-amber-400 underline ml-3">
+                    Open link
+                  </a>
+                @endif
               </p>
             @endif
           </div>
